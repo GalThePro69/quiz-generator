@@ -13,11 +13,18 @@ async function generateQuiz() {
       body: JSON.stringify({ input })
     });
 
-    const data = await res.json();
+    const text = await res.text(); // Get raw text
+    console.log("Raw response text:", text);
 
-    // Show response (assuming response is { quiz: "..." })
-    output.textContent = data.quiz || "No quiz generated.";
+    try {
+      const data = JSON.parse(text); // Try parsing it as JSON
+      output.textContent = data.quiz || "No quiz returned.";
+    } catch (jsonError) {
+      console.error("Failed to parse JSON:", jsonError);
+      output.textContent = "Error: Response was not valid JSON.";
+    }
   } catch (err) {
-    output.textContent = "Error: " + err.message;
+    console.error("Fetch error:", err);
+    output.textContent = "Network error: " + err.message;
   }
 }
