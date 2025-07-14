@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -34,10 +34,11 @@ export default async function handler(req, res) {
     });
 
     const data = await openaiRes.json();
+    console.log("💬 OpenAI response:", JSON.stringify(data, null, 2)); // 👈 log it
 
     const quiz = data.choices?.[0]?.message?.content;
 
-    return res.status(200).json({ quiz: quiz || 'No quiz generated.' });
+    return res.status(200).json({ quiz: quiz || null });
   } catch (error) {
     console.error('OpenAI API error:', error);
     return res.status(500).json({ error: 'Failed to generate quiz.' });
