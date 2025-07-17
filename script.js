@@ -4,6 +4,7 @@ async function generateQuiz() {
   const loading = document.getElementById("loading");
   const errorBox = document.getElementById("error");
 
+  output.textContent = ""; // Clear previous output
   output.style.display = "none";
   errorBox.style.display = "none";
   loading.style.display = "block";
@@ -27,7 +28,8 @@ async function generateQuiz() {
       return;
     }
 
-    output.innerHTML = formatQuiz(data.quiz || "No quiz returned.");
+    const formatted = formatQuiz(data.quiz || "No quiz returned.");
+    output.innerHTML = formatted;
     output.style.display = "block";
 
   } catch (err) {
@@ -44,8 +46,14 @@ function formatQuiz(text) {
 }
 
 function copyQuiz() {
-  const text = document.getElementById("output").innerText;
-  navigator.clipboard.writeText(text)
+  const output = document.getElementById("output");
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = output.innerHTML;
+
+  // Convert HTML to plain text
+  const plainText = tempDiv.innerText;
+
+  navigator.clipboard.writeText(plainText)
     .then(() => alert("✅ Quiz copied to clipboard!"))
-    .catch(() => alert("❌ Failed to copy."));
+    .catch(() => alert("❌ Failed to copy quiz."));
 }
