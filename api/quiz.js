@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { input, quizType = 'mixed', difficulty = 'medium' } = req.body;
+  const { input, difficulty, quizType } = req.body;
 
   if (!input) {
     return res.status(400).json({ error: 'No input text provided.' });
@@ -16,8 +16,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    const prompt = `Create 5 quiz questions based on the following text:\n\n${input}\n\nQuiz Type: ${quizType}\nDifficulty: ${difficulty}\n\nUse a mix of multiple choice, true/false, and short answer if type is 'mixed'. Clearly label the correct answers. Format like:\n\n1. Question\n a) Option\n b) Option\n Answer:\n`;
-
     const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -29,7 +27,7 @@ export default async function handler(req, res) {
         messages: [
           {
             role: 'user',
-            content: prompt,
+            content: `Create 5 ${quizType === 'mixed' ? 'mixed type' : quizType} quiz questions at a ${difficulty} difficulty level based on this text:\n\n${input}\n\nMake sure to format clearly and include the correct answer after each question like this:\nAnswer: ...`,
           },
         ],
       }),
