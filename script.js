@@ -40,7 +40,7 @@ function exportToPDF() {
     return;
   }
 
-  const includeAnswers = confirm("Include answers in PDF?");
+  const includeAnswers = confirm("Include answers in the end of the PDF?");
 
   const lines = quiz.split("\n");
   const questions = [];
