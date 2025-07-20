@@ -23,13 +23,12 @@ async function generateQuiz() {
 }
 
 function copyQuiz() {
-  const output = document.getElementById("output");
-  const text = output.textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const notification = document.getElementById("copied-notification");
-    notification.style.display = "block";
+  const output = document.getElementById("output").textContent;
+  navigator.clipboard.writeText(output).then(() => {
+    const note = document.getElementById("copied-notification");
+    note.style.display = "block";
     setTimeout(() => {
-      notification.style.display = "none";
+      note.style.display = "none";
     }, 1500);
   });
 }
@@ -62,15 +61,15 @@ function exportToPDF() {
 
   let y = 20;
   for (const line of questions) {
-    const splitLines = doc.splitTextToSize(line, 180);
-    splitLines.forEach(part => {
+    const wrapped = doc.splitTextToSize(line, 180);
+    for (const part of wrapped) {
       if (y > 280) {
         doc.addPage();
         y = 10;
       }
       doc.text(part, 10, y);
       y += 8;
-    });
+    }
   }
 
   if (includeAnswers && answers.length > 0) {
