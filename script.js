@@ -1,5 +1,7 @@
 async function generateQuiz() {
   const input = document.getElementById("input").value;
+  const difficulty = document.getElementById("difficulty").value;
+  const quizType = document.getElementById("quizType").value;
   const output = document.getElementById("output");
 
   output.textContent = "Generating quiz... please wait.";
@@ -10,7 +12,7 @@ async function generateQuiz() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ input })
+      body: JSON.stringify({ input, difficulty, quizType })
     });
 
     const data = await res.json();
@@ -22,113 +24,70 @@ async function generateQuiz() {
 
 function copyQuiz() {
   const output = document.getElementById("output");
-  const text = output.innerText;
-
+  const text = output.textContent;
   navigator.clipboard.writeText(text).then(() => {
-    const copiedMessage = document.getElementById("copiedMessage");
-    copiedMessage.style.display = "block";
+    const notification = document.getElementById("copied-notification");
+    notification.style.display = "block";
     setTimeout(() => {
-      copiedMessage.style.display = "none";
+      notification.style.display = "none";
     }, 1500);
   });
 }
 
-async function exportToPDF() {
-  const inputText = document.getElementById("input").value.trim();
-  const quizText = document.getElementById("output").innerText.trim();
-  const includeAnswers = document.getElementById("includeAnswers").checked;
-
-  if (!quizText) {
-    alert("No quiz content to export.");
+function exportToPDF() {
+  const quiz = document.getElementById("output").textContent;
+  if (!quiz.trim()) {
+    alert("Please generate a quiz first.");
     return;
   }
 
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+  const includeAnswers = confirm("Include answers in PDF?");
 
-  const margin = 15;
-  const lineHeight = 8;
-  let y = margin;
+  const lines = quiz.split("\n");
+  const questions = [];
+  const answers = [];
 
-  const maxLineWidth = doc.internal.pageSize.getWidth() - margin * 2;
-
-  // Parse quiz into questions and answers
-  const lines = quizText.split("\n");
-  const questionLines = [];
-  const answerLines = [];
-
-  for (let line of lines) {
+  for (const line of lines) {
     if (/^Answer:/i.test(line.trim())) {
-      answerLines.push(line);
+      answers.push(line.trim());
     } else {
-      questionLines.push(line);
+      questions.push(line);
     }
   }
 
-  // Title
-  doc.setFontSize(16);
-  doc.text("AI Generated Quiz", margin, y);
-  y += lineHeight * 1.5;
-
-  // Topic (optional)
-  if (inputText) {
-    doc.setFontSize(12);
-    doc.text("Topic: " + inputText, margin, y);
-    y += lineHeight * 1.5;
-  }
-
-  // Questions
+  const doc = new window.jspdf.jsPDF();
+  doc.setFontSize(12);
+  doc.text("AI Generated Quiz", 10, 10);
   doc.setFontSize(11);
-  const wrappedQuestions = doc.splitTextToSize(questionLines.join("\n"), maxLineWidth);
-  wrappedQuestions.forEach(line => {
-    if (y > 280) {
-      doc.addPage();
-      y = margin;
-    }
-    doc.text(line, margin, y);
-    y += lineHeight;
-  });
 
-  // Answers on new page
-  if (includeAnswers && answerLines.length > 0) {
-    doc.addPage();
-    y = margin;
-
-    doc.setFontSize(14);
-    doc.text("Answers", margin, y);
-    y += lineHeight * 1.5;
-
-    doc.setFontSize(11);
-    const wrappedAnswers = doc.splitTextToSize(answerLines.join("\n"), maxLineWidth);
-    wrappedAnswers.forEach(line => {
+  let y = 20;
+  for (const line of questions) {
+    const splitLines = doc.splitTextToSize(line, 180);
+    splitLines.forEach(part => {
       if (y > 280) {
         doc.addPage();
-        y = margin;
+        y = 10;
       }
-      doc.text(line, margin, y);
-      y += lineHeight;
+      doc.text(part, 10, y);
+      y += 8;
     });
   }
 
-  const filename = inputText ? inputText.slice(0, 30).replace(/\s+/g, "_") + "_quiz.pdf" : "quiz.pdf";
-  doc.save(filename);
-}
-
-function toggleDarkMode() {
-  const isDark = document.body.classList.toggle("dark-mode");
-  document.getElementById("container").classList.toggle("dark-mode");
-  document.getElementById("input").classList.toggle("dark-mode");
-  document.getElementById("output").classList.toggle("dark-mode");
-
-  document.querySelectorAll("button").forEach(btn => {
-    btn.classList.toggle("dark-mode");
-  });
-
-  localStorage.setItem("darkMode", isDark ? "on" : "off");
-}
-
-window.onload = () => {
-  if (localStorage.getItem("darkMode") === "on") {
-    toggleDarkMode();
+  if (includeAnswers && answers.length > 0) {
+    doc.addPage();
+    doc.setFontSize(12);
+    doc.text("Answers", 10, 10);
+    doc.setFontSize(11);
+    y = 20;
+    for (const line of answers) {
+      if (y > 280) {
+        doc.addPage();
+        y = 10;
+      }
+      doc.text(line, 10, y);
+      y += 8;
+    }
   }
-};
+
+  doc.save("quiz.pdf");
+}
