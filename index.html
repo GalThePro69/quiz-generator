@@ -33,26 +33,18 @@
       resize: vertical;
     }
 
+    select, label {
+      margin: 5px 0;
+      display: block;
+    }
 
-    <div style="margin-bottom: 10px;">
-  <label for="quizType">Quiz Type:</label>
-  <select id="quizType">
-    <option value="mixed">Mixed</option>
-    <option value="multiple">Multiple Choice</option>
-    <option value="truefalse">True / False</option>
-  </select>
-</div>
+    select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
 
-<div style="margin-bottom: 10px;">
-  <label for="difficulty">Difficulty:</label>
-  <select id="difficulty">
-    <option value="easy">Easy</option>
-    <option value="medium" selected>Medium</option>
-    <option value="hard">Hard</option>
-  </select>
-</div>
-
-    
     button {
       padding: 10px 20px;
       margin: 5px 5px 0 0;
@@ -95,9 +87,9 @@
       right: 20px;
       background: #4caf50;
       color: white;
-      padding: 24px 28px;
-      border-radius: 12px;
-      font-size: 18px;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 16px;
       opacity: 0;
       transition: opacity 0.3s ease-in-out;
       z-index: 9999;
@@ -112,9 +104,30 @@
 <body>
   <div class="container">
     <h1>🧠 AI Quiz Generator</h1>
+
     <textarea id="input" placeholder="Enter a topic or paragraph..."></textarea>
+
+    <div style="margin-bottom: 10px;">
+      <label for="quizType">Quiz Type:</label>
+      <select id="quizType">
+        <option value="mixed">Mixed</option>
+        <option value="multiple">Multiple Choice</option>
+        <option value="truefalse">True / False</option>
+      </select>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <label for="difficulty">Difficulty:</label>
+      <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+
     <button onclick="generateQuiz()">Generate Quiz</button>
     <button onclick="copyQuiz()">Copy Quiz</button>
+
     <div id="loading">⏳ Generating quiz...</div>
     <div id="error"></div>
     <div id="output">Your quiz will appear here.</div>
