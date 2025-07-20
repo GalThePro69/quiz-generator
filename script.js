@@ -1,5 +1,8 @@
 async function generateQuiz() {
   const input = document.getElementById("input").value;
+  const quizType = document.getElementById("quizType").value;
+  const difficulty = document.getElementById("difficulty").value;
+
   const output = document.getElementById("output");
   const loading = document.getElementById("loading");
   const errorBox = document.getElementById("error");
@@ -15,7 +18,7 @@ async function generateQuiz() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ input })
+      body: JSON.stringify({ input, quizType, difficulty })
     });
 
     const data = await res.json();
@@ -58,7 +61,7 @@ function copyQuiz() {
 
       setTimeout(() => {
         alertBox.classList.remove("show");
-      }, 2000); // Show for 2 seconds
+      }, 2000);
     })
     .catch(() => {
       console.error("Copy failed");
