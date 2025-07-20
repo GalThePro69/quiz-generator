@@ -27,7 +27,23 @@ export default async function handler(req, res) {
         messages: [
           {
             role: 'user',
-            content: `Create 5 ${quizType === 'mixed' ? 'mixed-type' : quizType} quiz questions at a ${difficulty} difficulty level based on this text:\n\n${input}\n\nUse clear formatting and include the correct answer after each question like this:\nAnswer: ...`,
+            content: `Create 5 quiz questions based on the following text:\n\n"${input}"\n\n
+Use the following rules depending on the quiz type selected:
+- For **multiple choice**, provide 4 options labeled a), b), c), d), and specify the correct one at the end like: "Answer: a) Option"
+- For **true/false**, list "a) True" and "b) False" as the options, and then say which is correct like: "Answer: a) True"
+- For **short answer**, just ask the question and give a short answer.
+
+The quiz should be in a ${difficulty} difficulty level.
+Make sure the formatting is consistent.
+Use this format:
+
+1. Question...
+a) Option A  
+b) Option B  
+c) Option C  
+d) Option D  
+Answer: a) Option A`
+
           },
         ],
       }),
