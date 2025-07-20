@@ -4,138 +4,97 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Quiz Generator</title>
-
+  <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f5f5;
-    }
-
-    body.dark-mode {
-      background: #121212;
-      color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 20px;
     }
 
     .container {
       max-width: 700px;
-      margin: 50px auto;
+      margin: 0 auto;
       background: white;
       padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      position: relative;
-    }
-
-    .container.dark-mode {
-      background: #1e1e1e;
-      box-shadow: 0 8px 16px rgba(255, 255, 255, 0.05);
-    }
-
-    h1 {
-      text-align: center;
-      color: inherit;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     textarea {
       width: 100%;
       height: 120px;
+      margin-bottom: 15px;
       padding: 10px;
-      margin-bottom: 20px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      resize: vertical;
+      font-size: 1rem;
     }
 
-    textarea.dark-mode {
-      background: #2a2a2a;
-      color: #f0f0f0;
-      border: 1px solid #555;
-    }
-
-    #output {
-      background: #f0f0f0;
-      padding: 15px;
-      min-height: 150px;
-      white-space: pre-wrap;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      margin-top: 20px;
-    }
-
-    #output.dark-mode {
-      background: #2a2a2a;
-      color: #f0f0f0;
-      border: 1px solid #555;
+    select {
+      padding: 5px;
+      margin-right: 10px;
     }
 
     .button-group {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
+      margin-top: 15px;
     }
 
-    button {
-      padding: 10px 20px;
-      font-size: 15px;
-      background-color: #4caf50;
-      color: white;
+    .button-group button {
+      margin-right: 10px;
+      padding: 10px 16px;
+      font-size: 1rem;
+      background-color: #007bff;
       border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    button.dark-mode {
-      background-color: #333;
-      color: #eee;
-    }
-
-    button.dark-mode:hover {
-      background-color: #444;
-    }
-
-    .dark-toggle {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 14px;
-      color: inherit;
-      background: transparent;
-      border: 1px solid currentColor;
-      padding: 6px 10px;
-      border-radius: 20px;
+      border-radius: 4px;
+      color: white;
       cursor: pointer;
     }
 
-    #copiedMessage {
+    .button-group button:hover {
+      background-color: #0056b3;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      background-color: #f8f8f8;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 20px;
+    }
+
+    #copied-notification {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: #4caf50;
+      background: #28a745;
       color: white;
-      padding: 10px 15px;
-      border-radius: 6px;
-      font-size: 14px;
+      padding: 10px 16px;
+      font-size: 1rem;
+      border-radius: 5px;
       display: none;
-      z-index: 1000;
     }
   </style>
 </head>
-
 <body>
-  <div class="container" id="container">
+  <div class="container">
     <h1>AI Quiz Generator</h1>
-    <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
 
     <textarea id="input" placeholder="Enter a topic or paragraph..."></textarea>
+
+    <div style="margin-bottom: 15px;">
+      <label><strong>Difficulty:</strong></label>
+      <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+
+      <label style="margin-left: 20px;"><strong>Quiz Type:</strong></label>
+      <select id="quizType">
+        <option value="mixed" selected>Mixed</option>
+        <option value="multiple">Multiple Choice</option>
+        <option value="truefalse">True / False</option>
+      </select>
+    </div>
 
     <div class="button-group">
       <button onclick="generateQuiz()">Generate Quiz</button>
@@ -143,20 +102,11 @@
       <button onclick="exportToPDF()">Export to PDF</button>
     </div>
 
-    <div style="text-align: center; margin-top: 10px;">
-      <label>
-        <input type="checkbox" id="includeAnswers" />
-        Include answers at the end of PDF
-      </label>
-    </div>
-
     <pre id="output">Your quiz will appear here.</pre>
   </div>
 
-  <div id="copiedMessage">Copied!</div>
+  <div id="copied-notification">Copied!</div>
 
-  <!-- Load jsPDF -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
