@@ -27,17 +27,14 @@ export default async function handler(req, res) {
         messages: [
           {
             role: 'user',
-            content: `Create 5 ${quizType === 'mixed' ? 'mixed type' : quizType} quiz questions at a ${difficulty} difficulty level based on this text:\n\n${input}\n\nMake sure to format clearly and include the correct answer after each question like this:\nAnswer: ...`,
+            content: `Create 5 ${quizType === 'mixed' ? 'mixed-type' : quizType} quiz questions at a ${difficulty} difficulty level based on this text:\n\n${input}\n\nUse clear formatting and include the correct answer after each question like this:\nAnswer: ...`,
           },
         ],
       }),
     });
 
     const data = await openaiRes.json();
-    console.log("💬 OpenAI response:", JSON.stringify(data, null, 2));
-
     const quiz = data.choices?.[0]?.message?.content;
-
     return res.status(200).json({ quiz: quiz || null });
   } catch (error) {
     console.error('OpenAI API error:', error);
