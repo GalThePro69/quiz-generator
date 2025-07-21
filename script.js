@@ -1,10 +1,18 @@
+const MAX_CHARS = 40000;
+
 async function generateQuiz() {
-  const input = document.getElementById("input").value;
+  const inputField = document.getElementById("input");
+  const input = inputField.value;
   const quizType = document.getElementById("quizType").value;
   const difficulty = document.getElementById("difficulty").value;
 
   if (!input.trim()) {
     alert("Please enter text to generate the quiz.");
+    return;
+  }
+
+  if (input.length > MAX_CHARS) {
+    alert(`Your input exceeds the ${MAX_CHARS.toLocaleString()} character limit. Please shorten it before generating a quiz.`);
     return;
   }
 
@@ -103,11 +111,9 @@ document.head.appendChild(script);
 const inputField = document.getElementById("input");
 const charCount = document.getElementById("charCount");
 
-const MAX_CHARS = 40000;
-
 inputField.addEventListener("input", () => {
   const length = inputField.value.length;
-  charCount.textContent = `${length} / ${MAX_CHARS} characters`;
+  charCount.textContent = `${length} / ${MAX_CHARS.toLocaleString()} characters`;
 
   if (length > MAX_CHARS) {
     charCount.classList.add("over");
@@ -115,4 +121,3 @@ inputField.addEventListener("input", () => {
     charCount.classList.remove("over");
   }
 });
-
