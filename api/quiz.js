@@ -13,25 +13,12 @@ export default async function handler(req, res) {
   const trimmedInput = input.slice(0, 1800);
 
   const quizTypeInstructions = {
-    multiple: `Generate ONLY multiple choice questions. 
-Each question must have 4 options labeled a), b), c), d). 
-Include the correct answer at the end like: "Answer: a) Correct option".`,
+  multiple: "Generate only multiple choice questions. Provide exactly 4 distinct options labeled a), b), c), d), and include the correct one at the end like: 'Answer: a) Option'. Do not generate true/false or short answer questions.",
+  truefalse: "Generate only true/false questions. Use the format: 'a) True' and 'b) False', and include the correct one at the end like: 'Answer: a) True'. Do not generate other types of questions.",
+  shortanswer: "Generate only short answer questions. These should be open-ended, not multiple choice or true/false. Just ask a question that requires a short, clear answer (1–2 sentences), and include the answer at the end like: 'Answer: ...'. Do NOT use options a), b), etc.",
+  mixed: "Generate a mix of multiple choice, true/false, and short answer questions. Format each appropriately. For multiple choice, provide 4 options (a–d) and write the correct one at the end. For true/false, use 'a) True' and 'b) False'. For short answers, ask an open question and provide a short, clear answer without options."
+};
 
-    truefalse: `Generate ONLY true/false questions. 
-Each question must have exactly:
-a) True  
-b) False  
-Include the correct answer at the end like: "Answer: a) True".`,
-
-    shortanswer: `Generate ONLY short answer questions.
-Just provide the question followed by a short and direct answer like: "Answer: Explanation here."`,
-
-    mixed: `Generate a mix of multiple choice, true/false, and short answer questions. 
-- Multiple choice: include 4 options (a–d) and an answer.
-- True/False: format as "a) True", "b) False", and provide the correct answer.
-- Short answer: write a brief answer directly after the question.
-Clearly label each answer at the end of the question like: "Answer: ..."`,
-  };
 
   const instruction = quizTypeInstructions[quizType] || quizTypeInstructions.mixed;
 
