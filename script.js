@@ -99,3 +99,20 @@ script.onload = () => {
   window.jspdf = window.jspdf || window.jspdf;
 };
 document.head.appendChild(script);
+
+const inputField = document.getElementById("input");
+const charCount = document.getElementById("charCount");
+
+const MAX_CHARS = 40000;
+
+inputField.addEventListener("input", () => {
+  const length = inputField.value.length;
+  charCount.textContent = `${length} / ${MAX_CHARS} characters`;
+
+  if (length > MAX_CHARS) {
+    charCount.classList.add("over");
+  } else {
+    charCount.classList.remove("over");
+  }
+});
+
