@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   }
 
   // Limit input to avoid slow processing or token overuse
-  const trimmedInput = input.slice(0, 1800);
+  //const trimmedInput = input.slice(0, 1800);
 
   const quizTypeInstructions = {
   multiple: "Generate only multiple choice questions. Provide exactly 4 distinct options labeled a), b), c), d), and include the correct one at the end like: 'Answer: a) Option'. Do not generate true/false or short answer questions.",
