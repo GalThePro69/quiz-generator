@@ -33,6 +33,8 @@ textarea {
   margin-bottom: 15px;
 }
 
+
+
 .selectors {
   margin-bottom: 15px;
   display: flex;
@@ -93,4 +95,13 @@ pre {
   border-radius: 8px;
   display: none;
   box-shadow: 0 0 10px #00000088;
+}
+
+#charCount {
+  font-size: 0.9em;
+  color: #aaa;
+  margin-top: 5px;
+}
+#charCount.over {
+  color: red;
 }
