@@ -68,7 +68,7 @@ ${trimmedInput}
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "gpt-4", // or "gpt-4o", "gpt-3.5-turbo"
+        model: "gpt-4o", // or "gpt-4o", "gpt-3.5-turbo"
         messages: [
           { role: "system", content: "You are a helpful assistant that generates educational quizzes." },
           { role: "user", content: prompt }
