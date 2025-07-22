@@ -4,44 +4,119 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quiz Generator</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      margin: 2em;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark {
+      background: #121212;
+      color: #e0e0e0;
+    }
+    textarea, select, input[type="number"] {
+      width: 100%;
+      padding: 0.5em;
+      margin-bottom: 1em;
+    }
+    button {
+      padding: 0.5em 1em;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .spinner {
+      display: none;
+      margin-top: 1em;
+    }
+    .spinner.visible {
+      display: block;
+    }
+    #output {
+      white-space: pre-wrap;
+      margin-top: 1em;
+      border: 1px solid #ccc;
+      padding: 1em;
+      background: #f9f9f9;
+    }
+    body.dark #output {
+      background: #1e1e1e;
+      border-color: #444;
+    }
+    .dark-toggle {
+      float: right;
+      margin-bottom: 1em;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="top-bar">
-      <h1>Quiz Generator</h1>
-      <button class="toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-    </div>
+  <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
 
-    <textarea id="input" placeholder="Paste your text here..."></textarea>
-    <div id="charCount">0 / 20,000 characters</div>
+  <h1>Quiz Generator</h1>
 
-    <div class="selectors">
-      <select id="quizType">
-        <option value="multiple">Multiple Choice</option>
-        <option value="truefalse">True / False</option>
-        <option value="shortanswer">Short Answer</option>
-        <option value="mixed">Mixed</option>
-      </select>
+  <textarea id="input" rows="6" placeholder="Paste your study text here..."></textarea>
 
-      <select id="difficulty">
-        <option value="easy">Easy</option>
-        <option value="medium">Medium</option>
-        <option value="hard">Hard</option>
-      </select>
-    </div>
+  <label for="quizType">Quiz Type:</label>
+  <select id="quizType">
+    <option value="mixed">Mixed</option>
+    <option value="multiple">Multiple Choice</option>
+    <option value="truefalse">True/False</option>
+    <option value="shortanswer">Short Answer</option>
+  </select>
 
-    <div class="buttons">
-      <button onclick="generateQuiz()">Generate Quiz</button>
-      <button onclick="exportToPDF(false)">Export PDF (Questions Only)</button>
-      <button onclick="exportToPDF(true)">Export PDF (With Answers)</button>
-    </div>
+  <label for="difficulty">Difficulty:</label>
+  <select id="difficulty">
+    <option value="easy">Easy</option>
+    <option value="medium">Medium</option>
+    <option value="hard">Hard</option>
+  </select>
 
-    <pre id="quiz"></pre>
-  </div>
+  <label for="numQuestions">Number of Questions:</label>
+  <input type="number" id="numQuestions" min="1" max="20" value="5" />
 
-  <div id="copied-notification">Copied to clipboard!</div>
-  <script src="scripts.js"></script>
+  <button onclick="generateQuiz()">Generate Quiz</button>
+
+  <div class="spinner" id="spinner">⏳ Generating quiz...</div>
+
+  <div id="output"></div>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+    }
+
+    async function generateQuiz() {
+      const input = document.getElementById("input").value;
+      const quizType = document.getElementById("quizType").value;
+      const difficulty = document.getElementById("difficulty").value;
+      const numQuestions = parseInt(document.getElementById("numQuestions").value, 10);
+      const spinner = document.getElementById("spinner");
+      const output = document.getElementById("output");
+
+      output.textContent = "";
+      spinner.classList.add("visible");
+
+      try {
+        const res = await fetch("/api/quiz", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ input, quizType, difficulty, numQuestions })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          output.textContent = data.quiz;
+        } else {
+          output.textContent = `Error: ${data.message}`;
+        }
+      } catch (err) {
+        output.textContent = "An error occurred. Please try again.";
+      } finally {
+        spinner.classList.remove("visible");
+      }
+    }
+  </script>
 </body>
 </html>
