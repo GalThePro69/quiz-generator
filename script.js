@@ -1,4 +1,4 @@
-const MAX_CHARS = 40000;
+const MAX_CHARS = 20000;
 
 async function generateQuiz() {
   const inputField = document.getElementById("input");
