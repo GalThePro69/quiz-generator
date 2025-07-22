@@ -5,8 +5,8 @@ export default async function handler(req, res) {
 
   const { input, quizType, difficulty } = req.body;
 
-  // Trim input to ~40,000 characters (10 pages of text)
-  const trimmedInput = input.slice(0, 40000);
+  // Trim input to ~20,000 characters (10 pages of text)
+  const trimmedInput = input.slice(0, 20000);
 
   const quizTypeInstructions = {
     multiple:
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
           }
         ],
         temperature: 0.7,
-        max_tokens: 1200
+        max_tokens: 800
       })
     });
 
