@@ -97,10 +97,10 @@ function exportToPDF(includeAnswers = false) {
 }
 
 function toggleDarkMode() {
-  document.body.classList.toggle("dark");
+  document.body.classList.toggle("light");
 }
 
-// Load jsPDF
+// Load jsPDF from CDN
 const script = document.createElement("script");
 script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 script.onload = () => {
@@ -114,5 +114,10 @@ const charCount = document.getElementById("charCount");
 inputField.addEventListener("input", () => {
   const length = inputField.value.length;
   charCount.textContent = `${length} / ${MAX_CHARS.toLocaleString()} characters`;
-  charCount.classList.toggle("over", length > MAX_CHARS);
+
+  if (length > MAX_CHARS) {
+    charCount.classList.add("over");
+  } else {
+    charCount.classList.remove("over");
+  }
 });
