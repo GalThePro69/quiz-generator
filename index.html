@@ -4,119 +4,115 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quiz Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #fff;
-      color: #000;
-      margin: 2em;
+      font-family: 'Inter', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      padding: 20px;
       transition: background 0.3s, color 0.3s;
     }
-    body.dark {
-      background: #121212;
-      color: #e0e0e0;
+
+    body.light {
+      background-color: #ffffff;
+      color: #000000;
     }
-    textarea, select, input[type="number"] {
+
+    textarea, select, button {
       width: 100%;
-      padding: 0.5em;
-      margin-bottom: 1em;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
     }
+
+    textarea {
+      height: 120px;
+      resize: vertical;
+    }
+
+    
     button {
-      padding: 0.5em 1em;
-      font-weight: bold;
+      background-color: #4a90e2;
+      color: white;
       cursor: pointer;
+      transition: background 0.3s;
     }
-    .spinner {
-      display: none;
-      margin-top: 1em;
+
+    button:hover {
+      background-color: #357ab8;
     }
-    .spinner.visible {
-      display: block;
-    }
-    #output {
+
+    #quiz {
       white-space: pre-wrap;
-      margin-top: 1em;
-      border: 1px solid #ccc;
-      padding: 1em;
-      background: #f9f9f9;
+      background-color: #1e1e1e;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
     }
-    body.dark #output {
-      background: #1e1e1e;
-      border-color: #444;
+
+    body.light #quiz {
+      background-color: #f2f2f2;
     }
-    .dark-toggle {
-      float: right;
-      margin-bottom: 1em;
+
+    .row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .row > * {
+      flex: 1;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .toggle {
       cursor: pointer;
+      font-size: 0.9rem;
+      background: none;
+      color: inherit;
+      border: 1px solid currentColor;
+      border-radius: 20px;
+      padding: 5px 15px;
     }
   </style>
 </head>
 <body>
-  <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+  <div class="top-bar">
+    <h1>Quiz Generator</h1>
+    <button class="toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+  </div>
 
-  <h1>Quiz Generator</h1>
+  <textarea id="input" rows="10" placeholder="Paste your text here..."></textarea>
+  <div id="charCount">0 / 20000 characters</div>
 
-  <textarea id="input" rows="6" placeholder="Paste your study text here..."></textarea>
+  <div class="row">
+    <select id="quizType">
+      <option value="multiple">Multiple Choice</option>
+      <option value="truefalse">True / False</option>
+      <option value="shortanswer">Short Answer</option>
+      <option value="mixed">Mixed</option>
+    </select>
 
-  <label for="quizType">Quiz Type:</label>
-  <select id="quizType">
-    <option value="mixed">Mixed</option>
-    <option value="multiple">Multiple Choice</option>
-    <option value="truefalse">True/False</option>
-    <option value="shortanswer">Short Answer</option>
-  </select>
-
-  <label for="difficulty">Difficulty:</label>
-  <select id="difficulty">
-    <option value="easy">Easy</option>
-    <option value="medium">Medium</option>
-    <option value="hard">Hard</option>
-  </select>
-
-  <label for="numQuestions">Number of Questions:</label>
-  <input type="number" id="numQuestions" min="1" max="20" value="5" />
+    <select id="difficulty">
+      <option value="easy">Easy</option>
+      <option value="medium">Medium</option>
+      <option value="hard">Hard</option>
+    </select>
+  </div>
 
   <button onclick="generateQuiz()">Generate Quiz</button>
+  <button onclick="exportToPDF(false)">Export PDF (Questions Only)</button>
+  <button onclick="exportToPDF(true)">Export PDF (With Answers)</button>
 
-  <div class="spinner" id="spinner">⏳ Generating quiz...</div>
+  <div id="quiz"></div>
 
-  <div id="output"></div>
-
-  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark");
-    }
-
-    async function generateQuiz() {
-      const input = document.getElementById("input").value;
-      const quizType = document.getElementById("quizType").value;
-      const difficulty = document.getElementById("difficulty").value;
-      const numQuestions = parseInt(document.getElementById("numQuestions").value, 10);
-      const spinner = document.getElementById("spinner");
-      const output = document.getElementById("output");
-
-      output.textContent = "";
-      spinner.classList.add("visible");
-
-      try {
-        const res = await fetch("/api/quiz", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ input, quizType, difficulty, numQuestions })
-        });
-
-        const data = await res.json();
-        if (res.ok) {
-          output.textContent = data.quiz;
-        } else {
-          output.textContent = `Error: ${data.message}`;
-        }
-      } catch (err) {
-        output.textContent = "An error occurred. Please try again.";
-      } finally {
-        spinner.classList.remove("visible");
-      }
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
