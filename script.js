@@ -12,32 +12,23 @@ async function generateQuiz() {
   }
 
   if (input.length > MAX_CHARS) {
-    alert(`Your input exceeds the ${MAX_CHARS.toLocaleString()} character limit. Please shorten it before generating a quiz.`);
+    alert(Your input exceeds the ${MAX_CHARS.toLocaleString()} character limit. Please shorten it before generating a quiz.);
     return;
   }
 
-  const spinner = document.getElementById("loadingSpinner");
-  spinner.classList.remove("hidden");
+  const res = await fetch("/api/quiz", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ input, quizType, difficulty }),
+  });
 
-  try {
-    const res = await fetch("/api/quiz", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ input, quizType, difficulty }),
-    });
-
-    if (!res.ok) {
-      alert("Error generating quiz.");
-      return;
-    }
-
-    const data = await res.json();
-    document.getElementById("quiz").textContent = data.quiz;
-  } catch (err) {
-    alert("An error occurred while generating the quiz.");
-  } finally {
-    spinner.classList.add("hidden");
+  if (!res.ok) {
+    alert("Error generating quiz.");
+    return;
   }
+
+  const data = await res.json();
+  document.getElementById("quiz").textContent = data.quiz;
 }
 
 function extractQuestionsAndAnswers(fullText) {
@@ -102,23 +93,12 @@ function exportToPDF(includeAnswers = false) {
     }
   }
 
-  doc.save(`quiz_${includeAnswers ? 'with_answers' : 'questions_only'}.pdf`);
+  doc.save(quiz_${includeAnswers ? 'with_answers' : 'questions_only'}.pdf);
 }
 
 function toggleDarkMode() {
-  const isLight = document.body.classList.toggle("light");
-  localStorage.setItem("theme", isLight ? "light" : "dark");
+  document.body.classList.toggle("light");
 }
-
-// Apply saved theme
-window.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = localStorage.getItem("theme");
-  const switchInput = document.querySelector('.switch input');
-  if (savedTheme === "light") {
-    document.body.classList.add("light");
-    switchInput.checked = true;
-  }
-});
 
 // Load jsPDF from CDN
 const script = document.createElement("script");
@@ -128,12 +108,16 @@ script.onload = () => {
 };
 document.head.appendChild(script);
 
-// Character counter
 const inputField = document.getElementById("input");
 const charCount = document.getElementById("charCount");
 
 inputField.addEventListener("input", () => {
   const length = inputField.value.length;
-  charCount.textContent = `${length} / ${MAX_CHARS.toLocaleString()} characters`;
-  charCount.classList.toggle("over", length > MAX_CHARS);
+  charCount.textContent = ${length} / ${MAX_CHARS.toLocaleString()} characters;
+
+  if (length > MAX_CHARS) {
+    charCount.classList.add("over");
+  } else {
+    charCount.classList.remove("over");
+  }
 });
