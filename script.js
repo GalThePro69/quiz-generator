@@ -12,7 +12,7 @@ async function generateQuiz() {
   }
 
   if (input.length > MAX_CHARS) {
-    alert(Your input exceeds the ${MAX_CHARS.toLocaleString()} character limit. Please shorten it before generating a quiz.);
+    alert(`Your input exceeds the ${MAX_CHARS.toLocaleString()} character limit. Please shorten it before generating a quiz.`);
     return;
   }
 
@@ -93,14 +93,14 @@ function exportToPDF(includeAnswers = false) {
     }
   }
 
-  doc.save(quiz_${includeAnswers ? 'with_answers' : 'questions_only'}.pdf);
+  doc.save(`quiz_${includeAnswers ? 'with_answers' : 'questions_only'}.pdf`);
 }
 
 function toggleDarkMode() {
   document.body.classList.toggle("light");
 }
 
-// Load jsPDF from CDN
+// Load jsPDF
 const script = document.createElement("script");
 script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 script.onload = () => {
@@ -113,11 +113,6 @@ const charCount = document.getElementById("charCount");
 
 inputField.addEventListener("input", () => {
   const length = inputField.value.length;
-  charCount.textContent = ${length} / ${MAX_CHARS.toLocaleString()} characters;
-
-  if (length > MAX_CHARS) {
-    charCount.classList.add("over");
-  } else {
-    charCount.classList.remove("over");
-  }
+  charCount.textContent = `${length} / ${MAX_CHARS.toLocaleString()} characters`;
+  charCount.classList.toggle("over", length > MAX_CHARS);
 });
