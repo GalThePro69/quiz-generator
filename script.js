@@ -97,7 +97,7 @@ function exportToPDF(includeAnswers = false) {
 }
 
 function toggleDarkMode() {
-  document.body.classList.toggle("light");
+  document.body.classList.toggle("dark");
 }
 
 // Load jsPDF
