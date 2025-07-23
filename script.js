@@ -21,6 +21,7 @@ async function generateQuiz() {
   const quizDiv = document.getElementById("quiz");
 
   loadingDiv.style.display = "block";
+  await new Promise(resolve => setTimeout(resolve, 50)); // force reflow
   resultDiv.innerHTML = "";
   quizDiv.textContent = "";
 
