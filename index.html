@@ -19,8 +19,6 @@
       color: #000000;
     }
 
-
-    
     textarea, select, button {
       width: 100%;
       margin: 10px 0;
@@ -35,7 +33,6 @@
       resize: vertical;
     }
 
-    
     button {
       background-color: #4a90e2;
       color: white;
@@ -84,7 +81,6 @@
       padding: 5px 15px;
     }
 
-
     .spinner {
       display: inline-block;
       width: 40px;
@@ -104,8 +100,6 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
-    
   </style>
 </head>
 <body>
@@ -137,16 +131,15 @@
   <button onclick="exportToPDF(false)">Export PDF (Questions Only)</button>
   <button onclick="exportToPDF(true)">Export PDF (With Answers)</button>
 
+  <div id="loading" style="display: none; text-align: center; margin-top: 20px;">
+    <span class="spinner"></span>
+    <p>Generating quiz...</p>
+  </div>
 
-   <div id="loading" style="display: none; text-align: center; margin-top: 20px;">
-  <span class="spinner"></span>
-  <p>Generating quiz...</p>
-</div>
-  
-  <div id="quiz"></div>
+  <!-- ✅ This was missing -->
+  <div id="result"></div>
 
- 
-
+  <pre id="quiz"></pre>
 
   <script src="script.js"></script>
 </body>
