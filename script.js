@@ -16,6 +16,8 @@ async function generateQuiz() {
     return;
   }
 
+  document.getElementById('loading').style.display = 'block';
+  
   const res = await fetch("/api/quiz", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -29,6 +31,8 @@ async function generateQuiz() {
 
   const data = await res.json();
   document.getElementById("quiz").textContent = data.quiz;
+  document.getElementById('loading').style.display = 'none';
+
 }
 
 function extractQuestionsAndAnswers(fullText) {
