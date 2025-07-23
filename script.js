@@ -16,28 +16,35 @@ async function generateQuiz() {
     return;
   }
 
-   const loadingDiv = document.getElementById("loading");
+  const loadingDiv = document.getElementById("loading");
   const resultDiv = document.getElementById("result");
-  
+  const quizDiv = document.getElementById("quiz");
+
   loadingDiv.style.display = "block";
-  resultDiv.innerHTML = ""; // clear old quiz
-  
-  const res = await fetch("/api/quiz", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ input, quizType, difficulty }),
-  });
+  resultDiv.innerHTML = "";
+  quizDiv.textContent = "";
 
-  if (!res.ok) {
-    alert("Error generating quiz.");
-    return;
+  try {
+    const res = await fetch("/api/quiz", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input, quizType, difficulty }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Error generating quiz.");
+    }
+
+    const data = await res.json();
+    quizDiv.textContent = data.quiz;
+  } catch (error) {
+    alert(error.message);
+    console.error(error);
+  } finally {
+    loadingDiv.style.display = "none";
   }
-
-  const data = await res.json();
-  document.getElementById("quiz").textContent = data.quiz;
-  
-
 }
+
 
 function extractQuestionsAndAnswers(fullText) {
   const lines = fullText.split('\n');
