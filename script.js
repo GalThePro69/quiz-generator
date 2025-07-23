@@ -16,7 +16,11 @@ async function generateQuiz() {
     return;
   }
 
-  document.getElementById('loading').style.display = 'block';
+   const loadingDiv = document.getElementById("loading");
+  const resultDiv = document.getElementById("result");
+  
+  loadingDiv.style.display = "block";
+  resultDiv.innerHTML = ""; // clear old quiz
   
   const res = await fetch("/api/quiz", {
     method: "POST",
@@ -31,7 +35,7 @@ async function generateQuiz() {
 
   const data = await res.json();
   document.getElementById("quiz").textContent = data.quiz;
-  document.getElementById('loading').style.display = 'none';
+  
 
 }
 
