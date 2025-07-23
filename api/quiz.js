@@ -40,8 +40,8 @@ export default async function handler(req, res) {
             content: `Create 5 quiz questions based on the following text:\n\n"${trimmedInput}"\n\nFollow these specific rules depending on the quiz type:\n${instruction}\n\nThe quiz should be at a ${difficulty} level.\nUse clean and copyable formatting.`
           }
         ],
-        temperature: 0.6,
-        max_tokens: 800
+        temperature: 0.7,
+        max_tokens: 1200
       })
     });
 
