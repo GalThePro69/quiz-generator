@@ -87,11 +87,6 @@
 </head>
 <body>
   
-  <div id="loading" style="display: none; text-align: center; margin-top: 20px;">
-  <span class="spinner"></span>
-  <p>Generating quiz...</p>
-</div>
-  
   <div class="top-bar">
     <h1>Quiz Generator</h1>
     <button class="toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
@@ -120,7 +115,11 @@
   <button onclick="exportToPDF(true)">Export PDF (With Answers)</button>
 
   <div id="quiz"></div>
-  
+
+  <div id="loading" style="display: none; text-align: center; margin-top: 20px;">
+  <span class="spinner"></span>
+  <p>Generating quiz...</p>
+</div>
 
 
   <script src="script.js"></script>
