@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Only POST requests allowed' });
   }
 
-  const { input, quizType, difficulty } = req.body;
+  const { input, type: quizType, difficulty } = req.body;
 
   // Trim input to ~20,000 characters (10 pages of text)
   const trimmedInput = input.slice(0, 20000);
