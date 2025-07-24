@@ -4,6 +4,7 @@ export default async function handler(req, res) {
   }
 
   const { input, type: quizType, difficulty, numQuestions } = req.body;
+  const questions = Math.max(1, Math.min(parseInt(numQuestions) || 5, 10));
 
   // Trim input to ~20,000 characters (10 pages of text)
   const trimmedInput = input.slice(0, 20000);
@@ -37,7 +38,7 @@ export default async function handler(req, res) {
           },
           {
             role: "user",
-            content: `Create ${numQuestions} quiz questions based on the following text:\n\n"${trimmedInput}"\n\nFollow these specific rules depending on the quiz type:\n${instruction}\n\nThe quiz should be at a ${difficulty} level.\nUse clean and copyable formatting.`
+            content: `Create ${questions} quiz questions based on the following text:\n\n"${trimmedInput}"\n\nFollow these specific rules depending on the quiz type:\n${instruction}\n\nThe quiz should be at a ${difficulty} level.\nUse clean and copyable formatting.`
           }
         ],
         temperature: 0.7,
