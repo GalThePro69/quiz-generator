@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Only POST requests allowed' });
   }
 
-  const { input, type: quizType, difficulty, numQuestions, language } = req.body;
+  const { input, quizType, difficulty, numQuestions, language } = req.body;
 
   const trimmedInput = input.slice(0, 20000);
   const questions = Math.max(1, Math.min(Number(numQuestions) || 5, 10)); // limit to 1–10
