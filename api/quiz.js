@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Only POST requests allowed' });
   }
 
-  const { input, type: quizType, difficulty } = req.body;
+  const { input, type: quizType, difficulty, numQuestions } = req.body;
 
   // Trim input to ~20,000 characters (10 pages of text)
   const trimmedInput = input.slice(0, 20000);
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
           },
           {
             role: "user",
-            content: `Create 5 quiz questions based on the following text:\n\n"${trimmedInput}"\n\nFollow these specific rules depending on the quiz type:\n${instruction}\n\nThe quiz should be at a ${difficulty} level.\nUse clean and copyable formatting.`
+            content: `Create ${numQuestions} quiz questions based on the following text:\n\n"${trimmedInput}"\n\nFollow these specific rules depending on the quiz type:\n${instruction}\n\nThe quiz should be at a ${difficulty} level.\nUse clean and copyable formatting.`
           }
         ],
         temperature: 0.7,
