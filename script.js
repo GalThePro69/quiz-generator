@@ -34,14 +34,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const numQuestions = document.getElementById("numQuestions").value;
     const language = document.getElementById("language").value;
 
-      // Set direction based on language
-    if (language === "hebrew") {
-      quizDiv.setAttribute("dir", "rtl");
-      quizDiv.style.textAlign = "right";
-    } else {
-      quizDiv.setAttribute("dir", "ltr");
-      quizDiv.style.textAlign = "left";
-    }
+    
+    // Detect if RTL language
+    const rtlLanguages = ['Hebrew', 'Arabic'];
+    const isRTL = rtlLanguages.includes(language);
+    
+    // Set direction on the #quiz container
+    const quizContainer = document.getElementById("quiz");
+    quizContainer.setAttribute("dir", isRTL ? "rtl" : "ltr");
+
 
 
     if (!input.trim()) {
