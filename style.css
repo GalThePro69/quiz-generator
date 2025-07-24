@@ -123,3 +123,15 @@ pre {
     transform: rotate(360deg);
   }
 }
+
+.quiz-container[dir="rtl"] {
+  font-family: Arial, sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+.quiz-container[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
