@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const data = await res.json();
-      quizDiv.textContent = data.quiz || "⚠️ No quiz was returned.";
+      quizDiv.innerHTML = data.quiz || "⚠️ No quiz was returned.";
     } catch (error) {
       alert(error.message);
       console.error(error);
