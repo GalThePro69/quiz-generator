@@ -34,6 +34,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const numQuestions = document.getElementById("numQuestions").value;
     const language = document.getElementById("language").value;
 
+      // Set direction based on language
+    if (language === "hebrew") {
+      quizDiv.setAttribute("dir", "rtl");
+      quizDiv.style.textAlign = "right";
+    } else {
+      quizDiv.setAttribute("dir", "ltr");
+      quizDiv.style.textAlign = "left";
+    }
+
+
     if (!input.trim()) {
       alert("Please enter text to generate the quiz.");
       return;
