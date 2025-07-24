@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const quizDiv = document.getElementById("quiz");
   const quizTypeSelect = document.getElementById("quizType");
   const difficultySelect = document.getElementById("difficulty");
+  const language = document.getElementById("language").value;
+
 
   if (!inputField || !charCount || !quizDiv) {
     console.error("Missing required DOM elements.");
@@ -50,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch("/api/quiz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input, quizType, difficulty, numQuestions: parseInt(numQuestions)}),
+        body: JSON.stringify({ input, quizType, difficulty, numQuestions: parseInt(numQuestions), language,}),
       });
 
       if (!res.ok) {
