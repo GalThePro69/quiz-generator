@@ -3,11 +3,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Only POST requests allowed' });
   }
 
-  const { input, type: quizType, difficulty, numQuestions } = req.body;
-  const questions = Math.max(1, Math.min(parseInt(numQuestions) || 5, 10));
+  const { input, type: quizType, difficulty, numQuestions, language } = req.body;
 
-  // Trim input to ~20,000 characters (10 pages of text)
   const trimmedInput = input.slice(0, 20000);
+  const questions = Math.max(1, Math.min(Number(numQuestions) || 5, 10)); // limit to 1–10
 
   const quizTypeInstructions = {
     multiple:
@@ -22,6 +21,11 @@ export default async function handler(req, res) {
 
   const instruction = quizTypeInstructions[quizType] || quizTypeInstructions.mixed;
 
+  const languageInstruction =
+    language && language.toLowerCase() !== "english"
+      ? `The entire quiz (questions and answers) must be written in ${language}.`
+      : "";
+
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -30,7 +34,7 @@ export default async function handler(req, res) {
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: JSON.stringify({
-        model: "gpt-4o", // use GPT-4o to reduce cost
+        model: "gpt-4o",
         messages: [
           {
             role: "system",
@@ -38,7 +42,7 @@ export default async function handler(req, res) {
           },
           {
             role: "user",
-            content: `Create ${questions} quiz questions based on the following text:\n\n"${trimmedInput}"\n\nFollow these specific rules depending on the quiz type:\n${instruction}\n\nThe quiz should be at a ${difficulty} level.\nUse clean and copyable formatting.`
+            content: `Create ${questions} quiz questions based on the following text:\n\n"${trimmedInput}"\n\nFollow these specific rules depending on the quiz type:\n${instruction}\n\nThe quiz should be at a ${difficulty} level.\n${languageInstruction}\nUse clean and copyable formatting.`
           }
         ],
         temperature: 0.7,
