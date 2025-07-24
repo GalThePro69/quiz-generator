@@ -124,14 +124,12 @@ pre {
   }
 }
 
-.quiz-container[dir="rtl"] {
-  font-family: Arial, sans-serif;
-  direction: rtl;
+#quiz[dir="rtl"] {
   text-align: right;
 }
 
-.quiz-container[dir="ltr"] {
-  direction: ltr;
+#quiz[dir="ltr"] {
   text-align: left;
 }
+
 
