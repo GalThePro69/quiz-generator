@@ -22,9 +22,10 @@ export default async function handler(req, res) {
   const instruction = quizTypeInstructions[quizType] || quizTypeInstructions.mixed;
 
   const languageInstruction =
-    language && language.toLowerCase() !== "english"
-      ? `The entire quiz (questions and answers) must be written in ${language}.`
-      : "";
+  language && language.toLowerCase() !== "english"
+    ? `Translate the input and write the entire quiz—including all questions and answers—**strictly** in ${language}. Do not use any English words.`
+    : "";
+
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
