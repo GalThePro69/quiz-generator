@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = inputField.value;
     const quizType = quizTypeSelect.value;
     const difficulty = difficultySelect.value;
+    const numQuestions = document.getElementById("numQuestions").value;
 
     if (!input.trim()) {
       alert("Please enter text to generate the quiz.");
@@ -49,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch("/api/quiz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input, quizType, difficulty }),
+        body: JSON.stringify({ input, quizType, difficulty, numQuestions: parseInt(numQuestions)}),
       });
 
       if (!res.ok) {
