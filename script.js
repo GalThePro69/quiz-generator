@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const quizDiv = document.getElementById("quiz");
   const quizTypeSelect = document.getElementById("quizType");
   const difficultySelect = document.getElementById("difficulty");
-  const language = document.getElementById("language").value;
+  
 
 
   if (!inputField || !charCount || !quizDiv) {
@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const quizType = quizTypeSelect.value;
     const difficulty = difficultySelect.value;
     const numQuestions = document.getElementById("numQuestions").value;
+    const language = document.getElementById("language").value;
 
     if (!input.trim()) {
       alert("Please enter text to generate the quiz.");
