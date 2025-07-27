@@ -43,7 +43,7 @@ export default async function handler(req, res) {
           },
           {
             role: "user",
-            content: `Create ${questions} quiz questions based on the following text:\n\n"${trimmedInput}"\n\nFollow these specific rules depending on the quiz type:\n${instruction}\n\nThe quiz should be at a ${difficulty} level.\n${languageInstruction}\nUse clean and copyable formatting.`
+            content: `Create ${questions} quiz questions based on the following text:\n\n"${trimmedInput}"\n\nFollow these specific rules depending on the quiz type:\n${instruction}\n\nThe quiz should be at a ${difficulty} level.\n${languageInstruction}\nUse clean and copyable formatting\nYour response should only include the questions and answers, nothing more.`
           }
         ],
         temperature: 0.7,
