@@ -1,0 +1,34 @@
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('NotoSans-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Noto Sans Hebrew';
+  src: url('NotoSansHebrew-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Noto Sans Arabic';
+  src: url('NotoSansArabic-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Noto Sans JP';
+  src: url('NotoSansJP-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Noto Sans SC';
+  src: url('NotoSansSC-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
