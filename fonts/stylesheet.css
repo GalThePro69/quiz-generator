@@ -32,3 +32,17 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  src: url('NotoSansKR-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Noto Sans Devanagari';
+  src: url('NotoSansDevanagari-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
