@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const difficultySelect = document.getElementById("difficulty");
   
 
+  const { jsPDF } = window.jspdf;
+
 
   if (!inputField || !charCount || !quizDiv) {
     console.error("Missing required DOM elements.");
