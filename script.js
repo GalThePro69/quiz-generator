@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   window.exportToPDF = function (includeAnswers = false) {
-  const { jsPDF } = window.jspdf;
+  
   const quizText = quizDiv.textContent;
 
   if (!quizText.trim()) {
