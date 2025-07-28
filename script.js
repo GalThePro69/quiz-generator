@@ -158,11 +158,5 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // Load jsPDF from CDN
-  const script = document.createElement("script");
-  script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
-  script.onload = () => {
-    window.jspdf = window.jspdf || window.jspdf;
-  };
-  document.head.appendChild(script);
+  
 });
