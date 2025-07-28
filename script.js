@@ -82,50 +82,58 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   window.exportToPDF = function (includeAnswers = false) {
-    const { jsPDF } = window.jspdf;
-    const quizText = quizDiv.textContent;
+  const { jsPDF } = window.jspdf;
+  const quizText = quizDiv.textContent;
 
-    if (!quizText.trim()) {
-      alert("No quiz to export.");
-      return;
-    }
+  if (!quizText.trim()) {
+    alert("No quiz to export.");
+    return;
+  }
 
-    const { questionPart, answerPart } = extractQuestionsAndAnswers(quizText);
-    const doc = new jsPDF();
-    const margin = 10;
-    const pageHeight = doc.internal.pageSize.height;
+  const { questionPart, answerPart } = extractQuestionsAndAnswers(quizText);
+  const doc = new jsPDF();
 
-    const splitText = doc.splitTextToSize(questionPart, 180);
-    let y = margin;
+  doc.setFont('Noto Sans Hebrew_Regular'); 
+  doc.setFontSize(12);
 
-    for (let i = 0; i < splitText.length; i++) {
-      if (y > pageHeight - margin) {
-        doc.addPage();
-        y = margin;
-      }
-      doc.text(splitText[i], margin, y);
-      y += 10;
-    }
+  const margin = 10;
+  const pageHeight = doc.internal.pageSize.height;
 
-    if (includeAnswers && answerPart) {
+  const splitText = doc.splitTextToSize(questionPart, 180);
+  let y = margin;
+
+  for (let i = 0; i < splitText.length; i++) {
+    if (y > pageHeight - margin) {
       doc.addPage();
-      doc.setFontSize(14);
-      doc.text("Answers", margin, margin);
-
-      const answersText = doc.splitTextToSize(answerPart, 180);
-      let answerY = margin + 10;
-      for (let line of answersText) {
-        if (answerY > pageHeight - margin) {
-          doc.addPage();
-          answerY = margin;
-        }
-        doc.text(line, margin, answerY);
-        answerY += 10;
-      }
+      doc.setFont('Noto Sans Hebrew_Regular'); // re-set after new page
+      y = margin;
     }
+    doc.text(splitText[i], margin, y);
+    y += 10;
+  }
 
-    doc.save(`quiz_${includeAnswers ? 'with_answers' : 'questions_only'}.pdf`);
-  };
+  if (includeAnswers && answerPart) {
+    doc.addPage();
+    doc.setFont('Noto Sans Hebrew_Regular');
+    doc.setFontSize(14);
+    doc.text("Answers", margin, margin);
+
+    const answersText = doc.splitTextToSize(answerPart, 180);
+    let answerY = margin + 10;
+    for (let line of answersText) {
+      if (answerY > pageHeight - margin) {
+        doc.addPage();
+        doc.setFont('Noto Sans Hebrew_Regular');
+        answerY = margin;
+      }
+      doc.text(line, margin, answerY);
+      answerY += 10;
+    }
+  }
+
+  doc.save(`quiz_${includeAnswers ? 'with_answers' : 'questions_only'}.pdf`);
+};
+
 
   window.toggleDarkMode = function () {
     document.body.classList.toggle("light");
