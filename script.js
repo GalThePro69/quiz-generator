@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const { questionPart, answerPart } = extractQuestionsAndAnswers(quizText);
   const doc = new jsPDF();
 
-  doc.setFont('Noto Sans Hebrew_Regular'); 
+  doc.setFont('NotoHebrew'); 
   doc.setFontSize(12);
 
   const margin = 10;
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
   for (let i = 0; i < splitText.length; i++) {
     if (y > pageHeight - margin) {
       doc.addPage();
-      doc.setFont('Noto Sans Hebrew_Regular'); // re-set after new page
+      doc.setFont('NotoHebrew'); // re-set after new page
       y = margin;
     }
     doc.text(splitText[i], margin, y);
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (includeAnswers && answerPart) {
     doc.addPage();
-    doc.setFont('Noto Sans Hebrew_Regular');
+    doc.setFont('NotoHebrew');
     doc.setFontSize(14);
     doc.text("Answers", margin, margin);
 
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let line of answersText) {
       if (answerY > pageHeight - margin) {
         doc.addPage();
-        doc.setFont('Noto Sans Hebrew_Regular');
+        doc.setFont('NotoHebrew');
         answerY = margin;
       }
       doc.text(line, margin, answerY);
