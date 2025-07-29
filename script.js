@@ -12,20 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const { jsPDF } = window.jspdf;
 
-
-
-
-
-  const doc = new jsPDF();
-doc.setFont("NotoHebrew");
-doc.setFontSize(16);
-doc.text("שלום עולם", 10, 20);
-doc.save("test.pdf");
-
-
-
-
-
   
 
   if (!inputField || !charCount || !quizDiv) {
