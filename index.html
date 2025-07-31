@@ -177,6 +177,19 @@
   
   <script src="fonts/NotoHebrew.js"></script>
   <script src="script.js"></script>
+
+
+  <script>
+  window.onload = function () {
+    const doc = new jsPDF();
+    doc.setFont("NotoHebrew");
+    doc.setFontSize(16);
+    doc.text("שלום עולם", 10, 20);
+    doc.save("test.pdf");
+  };
+</script>
+
+
   
 </body>
 </html>
